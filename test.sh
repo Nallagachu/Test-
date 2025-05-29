@@ -17,11 +17,21 @@ NC='\033[0m' # No color
 
 # 🛑 Prevent Duplicate Execution
 if [[ -f "$LOCK_FILE" ]]; then
-    echo -e "${RED}⚠️ Script is already running. Exiting...${NC}"
-    exit 1
-else
-    touch "$LOCK_FILE"
+    echo -e "${YELLOW}⚠️ It looks like the script is already running.${NC}"
+    echo -e "🔄 Would you like to check your vehicle status again? (y/n): "
+    read user_choice
+    
+    if [[ "$user_choice" == "y" ]]; then
+        rm -f "$LOCK_FILE"
+        echo -e "${BLUE}🔄 Restarting Vehicle Health Check...${NC}"
+        exec "$0"  # Restarts the script
+    else
+        echo -e "${RED}🚗 Okay! Drive safe and check again when needed.${NC}"
+        exit 0
+    fi
 fi
+
+touch "$LOCK_FILE"
 
 # 🚨 SAFETY REMINDER
 echo -e "${RED}⚠️ Always manually inspect key components before operating the vehicle!${NC}"
