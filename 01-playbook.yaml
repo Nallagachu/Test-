@@ -1,4 +1,4 @@
-- name: Ping thee server
+- name: Ping thee  server
   hosts: frontend
   tasks:
     - name: Ping the server
