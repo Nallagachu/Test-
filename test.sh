@@ -15,16 +15,16 @@ GREEN='\033[0;32m'
 BLUE='\033[0;34m'
 NC='\033[0m' # No color
 
-# 🛑 Prevent Duplicate Execution
+# 🛑 Prevent Duplicate Execution & Ask to Restart
 if [[ -f "$LOCK_FILE" ]]; then
     echo -e "${YELLOW}⚠️ It looks like the script is already running.${NC}"
-    echo -e "🔄 Would you like to check your vehicle status again? (y/n): "
+    echo -e "🔄 Would you like to restart and check again? (y/n): "
     read user_choice
     
     if [[ "$user_choice" == "y" ]]; then
+        echo -e "${BLUE}🔄 Cleaning up previous session and restarting fresh...${NC}"
         rm -f "$LOCK_FILE"
-        echo -e "${BLUE}🔄 Restarting Vehicle Health Check...${NC}"
-        exec "$0"  # Restarts the script
+        exec bash "$0"  # Force a full restart
     else
         echo -e "${RED}🚗 Okay! Drive safe and check again when needed.${NC}"
         exit 0
@@ -39,7 +39,7 @@ echo -e "${RED}🛑 Drive safe! Preventative checks reduce risks.${NC}"
 echo -e "${BLUE}🔹 Last Trip Analysis | $(date)${NC}" > "$LOG_FILE"
 echo "------------------------------------------------------" >> "$LOG_FILE"
 
-# 🔄 Retrieve Previous Trip Data
+# 🔄 Retrieve Previous Trip Data or Request New Input
 if [[ -f "$PREV_TRIP_FILE" ]]; then
     source "$PREV_TRIP_FILE"
     echo -e "${BLUE}🔄 Previous Trip Data Loaded!${NC}"
