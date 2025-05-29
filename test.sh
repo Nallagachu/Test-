@@ -72,7 +72,7 @@ check_tire_wear() {
 check_battery_health() {
     charge_status=$((80 - (trip_distance / 25) - (load_weight / 50)))
     charge_status=$((charge_status < 0 ? 0 : charge_status))
-    [[ "$charge_status" -le 30 ]] && status="${RED}🔴 Low Charge – Recharge recommended!${NC}" || [[ "$charge_status" -le 70 ]] && status="${YELLOW}🟡 Moderate Charge – Monitor battery performance.${NC}" || status="${GREEN}🟢 Healthy – No issues detected.${NC}"
+    [[ "$charge_status" -le 30 ]] && status="${RED}🔴 Low Charge – Recharge recommended!${NC}" || [[ "$charge_status" -ge 70 ]] && status="${YELLOW}🟡 Moderate Charge – Monitor battery performance.${NC}" || status="${GREEN}🟢 Healthy – No issues detected.${NC}"
     echo -e "| Battery           | $charge_status%   | $status    | Recharge if below 50%          |" >> "$LOG_FILE"
 }
 
