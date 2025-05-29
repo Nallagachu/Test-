@@ -1,5 +1,5 @@
  - name: Hello world
-    hosts: frontend
+    hosts: local
     connnection: local
      tasks:
       -name: Hello world
