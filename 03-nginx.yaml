@@ -1,16 +1,14 @@
-- name: install nginx
+- name: Install and start Nginx
   hosts: frontend
   become: yes
   tasks:
-    - name: install nginx
-      ansible.builtin.service:
+    - name: Install Nginx
+      ansible.builtin.package:
         name: nginx
         state: present
 
-    - name: start nginx service
-      ansible.builtin.systemd:
+    - name: Start and enable Nginx service
+      ansible.builtin.service:
         name: nginx
         state: started
         enabled: true
-
-   
